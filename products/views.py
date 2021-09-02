@@ -1,6 +1,7 @@
+from django.shortcuts import render
+
 import json
 
-from django.shortcuts import render
 
 # Create your views here.
 
@@ -49,6 +50,6 @@ def products(request):
 
     # Второй вариант, загрузка через db.json
 
-    with open('db.json', 'r') as fh:
+    with open('db.json', 'r', encoding='utf-8') as fh:
         context = json.load(fh)
     return render(request, 'products/products.html', context)
