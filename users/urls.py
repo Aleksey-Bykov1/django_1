@@ -17,8 +17,8 @@ from django.contrib import admin
 from django.urls import path
 from products.views import products
 
-app_name = 'products'
+app_name = 'users'
 
-urlpatterns = [
-    path('', products, name='index'),
-]
+# urlpatterns = [
+#     path('', products, name='index'),
+# ]
