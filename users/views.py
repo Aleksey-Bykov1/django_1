@@ -16,7 +16,6 @@ def login(request):
             user = auth.authenticate(username=username, password=password)
             if user and user.is_active:
                 auth.login(request, user)
-                print(user.is_authenticated)
                 return HttpResponseRedirect(reverse('products:index'))
     else:
         form = UserLoginForm()
