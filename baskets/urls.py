@@ -15,11 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from baskets.views import basket_add, basket_remove
+from baskets.views import basket_add, basket_remove, baskets_edit
 
 app_name = 'baskets'
 
 urlpatterns = [
     path('basket_add/<int:id>', basket_add, name='basket_add'),
-    path('basket_remove/<int:id>', basket_remove, name='basket_remove')
+    path('basket_remove/<int:id>', basket_remove, name='basket_remove'),
+    path('edit/<int:id>/<int:quantity>/', baskets_edit, name='baskets_edit'),
+
 ]
