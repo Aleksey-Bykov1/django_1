@@ -1,7 +1,9 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponseRedirect
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.urls import reverse
-from .forms import UserLoginForm, UserRegisterForm
+from .forms import UserLoginForm, UserRegisterForm, UserProfileForm
+from baskets.models import Basket
 
 
 # Create your views here.
@@ -16,18 +18,15 @@ def login(request):
             user = auth.authenticate(username=username, password=password)
             if user and user.is_active:
                 auth.login(request, user)
-                print(user.is_authenticated)
                 return HttpResponseRedirect(reverse('products:index'))
-        else:
-            print(form.errors)
     else:
         form = UserLoginForm()
-        context = {
+    context = {
             'title': 'GeekShop - Авторизация',
             'form': form
         }
 
-        return render(request, 'users/login.html', context)
+    return render(request, 'users/login.html', context)
 
 
 def register(request):
@@ -35,17 +34,36 @@ def register(request):
         form = UserRegisterForm(data=request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Вы успешно зарегистрировались')
             return HttpResponseRedirect(reverse('users:login'))
-        print(form.errors)
-        return HttpResponseRedirect(reverse('users:register'))
     else:
         form = UserRegisterForm()
-        context = {
+    context = {
             'title': 'GeekShop - Регистрация',
             'form': form
         }
 
-        return render(request, 'users/register.html', context)
+    return render(request, 'users/register.html', context)
+
+
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        form = UserProfileForm(data=request.POST, instance=request.user, files=request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Изменения сохранены успешно')
+
+            return HttpResponseRedirect(reverse('users:profile'))
+    else:
+        form = UserProfileForm(instance=request.user)
+    context = {
+            'title': 'GeekShop - Профиль',
+            'form': form,
+            'baskets': Basket.objects.filter(user=request.user)
+        }
+
+    return render(request, 'users/profile.html', context)
 
 
 def logout(request):
