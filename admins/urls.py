@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from baskets.views import basket_add, basket_remove, baskets_edit
 
-app_name = 'baskets'
+app_name = 'admins'
 
 urlpatterns = [
     path('basket_add/<int:id>', basket_add, name='basket_add'),
