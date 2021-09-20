@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import index, admin_user, admin_user_create, admin_user_update, admin_user_delete
+
+import admins.views
+from .views import index, admin_user, admin_user_create, admin_user_update, admin_user_delete, categories, category_create, category_delete, category_update
+
 
 app_name = 'admins'
 
@@ -26,4 +29,8 @@ urlpatterns = [
     path('user_update/<int:id>', admin_user_update, name='admin_user_update'),
     path('user_delete/<int:id>', admin_user_delete, name='admin_user_delete'),
 
+    path('categories/create/', category_create, name='category_create'),
+    path('categories/read/', categories, name='categories'),
+    path('categories/update/<int:id>', category_update, name='category_update'),
+    path('categories/delete/<int:id>', category_delete, name='category_delete'),
 ]

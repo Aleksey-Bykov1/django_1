@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import user_passes_test
 
 from admins.forms import UserAdminRegisterForm, UserAdminProfileForm
 from users.models import User
+from products.models import ProductsCategory
 
 
 # Create your views here.
@@ -67,3 +68,27 @@ def admin_user_delete(request, id):
     user.is_active = False
     user.save()
     return HttpResponseRedirect(reverse('admins:admin_user'))
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def categories(request):
+    categories_list = ProductsCategory.objects.all()
+    context = {
+        'title': 'Админка - категории',
+        'objects': categories_list
+    }
+
+    return render(request, 'admins/categories.html', context)
+
+
+def category_create(request):
+    pass
+
+
+def category_update(request, id):
+    pass
+
+
+def category_delete(request, id):
+    pass
+
