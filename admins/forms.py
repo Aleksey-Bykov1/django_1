@@ -2,6 +2,7 @@ from django import forms
 
 from users.forms import UserRegisterForm, UserProfileForm
 from users.models import User
+from products.models import ProductsCategory
 
 
 class UserAdminRegisterForm(UserRegisterForm):
@@ -17,4 +18,14 @@ class UserAdminProfileForm(UserProfileForm):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control py-4', 'readonly': False}))
 
 
+class ProductCategoryEditForm(forms.ModelForm):
+    class Meta:
+        model = ProductsCategory
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+            field.help_text = ''
 
