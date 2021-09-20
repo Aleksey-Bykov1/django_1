@@ -15,13 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from baskets.views import basket_add, basket_remove, baskets_edit
+from .views import index, admin_user, admin_user_create, admin_user_update, admin_user_delete
 
 app_name = 'admins'
 
 urlpatterns = [
-    path('basket_add/<int:id>', basket_add, name='basket_add'),
-    path('basket_remove/<int:id>', basket_remove, name='basket_remove'),
-    path('edit/<int:id>/<int:quantity>/', baskets_edit, name='baskets_edit'),
+    path('', index, name='index'),
+    path('users/', admin_user, name='admin_user'),
+    path('user_create/', admin_user_create, name='admin_user_create'),
+    path('user_update/<int:id>', admin_user_update, name='admin_user_update'),
+    path('user_delete/<int:id>', admin_user_delete, name='admin_user_delete'),
 
 ]
