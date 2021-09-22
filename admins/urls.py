@@ -17,14 +17,14 @@ from django.contrib import admin
 from django.urls import path
 
 import admins.views
-from .views import index, admin_user, admin_user_create, admin_user_update, admin_user_delete, categories, category_create, category_delete, category_update
+from .views import index, UserListView, admin_user_create, admin_user_update, admin_user_delete, categories, category_create, category_delete, category_update
 
 
 app_name = 'admins'
 
 urlpatterns = [
     path('', index, name='index'),
-    path('users/', admin_user, name='admin_user'),
+    path('users/', UserListView.as_view(), name='admin_user'),
     path('user_create/', admin_user_create, name='admin_user_create'),
     path('user_update/<int:id>', admin_user_update, name='admin_user_update'),
     path('user_delete/<int:id>', admin_user_delete, name='admin_user_delete'),
