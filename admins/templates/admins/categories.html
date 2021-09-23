@@ -2,48 +2,38 @@
 
 
 {% block content %}
+
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid">
-                <h1 class="mt-4">Категории товаров</h1>
+                <h1 class="mt-4">{{ title }}</h1>
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-table mr-1"></i>
-                        Категории товаров
+                        Пользователи
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
-                                    <th>Имя</th>
-                                    <th>Описание</th>
-                                    <th>Активный</th>
+                                    <th>Категория товара</th>
+                                    <th>Описание товара</th>
+                                    <th>Статус категории товара, активный</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tr>
-                                    <th>Имя</th>
-                                    <th>Описание</th>
-                                    <th>Активный</th>
+                                    <th>Категория товара</th>
+                                    <th>Описание товара</th>
+                                    <th>Статус категории товара, активный</th>
                                 </tr>
                                 </tfoot>
                                 <tbody>
-                                <tr>
-                                    <td><a href="#" style="color: dodgerblue">vokler</a></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="text-center"><i class="fas fa-check-circle"></i></td>
-                                    <td class="text-center"><i class="fas fa-check-circle"></i></td>
-                                </tr>
-                                {% for category in categories_list %}
+                                {% for category in categories %}
                                     <tr>
-                                        <td><a href="{% url 'admins:categories' category.id %}"
-                                               style="color: dodgerblue">{{ category.name }}</a></td>
+                                    <td><a style="color: dodgerblue" href="#">{{ category.name }}</a></td>
                                         <td>{{ category.description }}</td>
-                                        <td>{{ category.is_active }}</td>
-
                                         <td class="text-center">
                                             {% if category.is_active %}
                                                 <i class="fas fa-check-circle"></i>
@@ -58,7 +48,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="{% url 'admins:admin_user_create' %}">
+                        <a href="{% url 'admins:category_create' %}">
                             <button class="btn btn-success">Создать категорию</button>
                         </a>
                     </div>
@@ -74,7 +64,4 @@
         </footer>
     </div>
 
-
-
 {% endblock %}
-

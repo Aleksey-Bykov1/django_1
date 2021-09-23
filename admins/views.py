@@ -7,12 +7,9 @@ from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from admins.forms import UserAdminRegisterForm, UserAdminProfileForm
+from admins.forms import UserAdminRegisterForm, UserAdminProfileForm, ProductCategoryEditForm
 from users.models import User
 from products.models import ProductsCategory
-
-
-# Create your views here.
 
 
 def index(request):
@@ -47,6 +44,11 @@ class UserCreateView(CreateView):
     template_name = 'admins/admin-users-create.html'
     form_class = UserAdminRegisterForm
     success_url = reverse_lazy('admins:admin_user')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(UserCreateView, self).get_context_data(**kwargs)
+        context['title'] = 'Админка | Создание пользователя'
+        return context
 
     @method_decorator(user_passes_test(lambda u: u.is_superuser))
     def dispatch(self, request, *args, **kwargs):
@@ -134,19 +136,46 @@ class UserDeleteView(DeleteView):
 #     return HttpResponseRedirect(reverse('admins:admin_user'))
 
 
-@user_passes_test(lambda u: u.is_superuser)
-def categories(request):
-    categories_list = ProductsCategory.objects.all()
-    context = {
-        'title': 'Админка - категории',
-        'objects': categories_list
-    }
+class CategoriesListView(ListView):
+    model = ProductsCategory
+    template_name = 'admins/categories.html'
+    context_object_name = 'categories'
 
-    return render(request, 'admins/categories.html', context)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(CategoriesListView, self).get_context_data(**kwargs)
+        context['title'] = 'Админка | Категории'
+        return context
+
+    @method_decorator(user_passes_test(lambda u: u.is_superuser))
+    def dispatch(self, request, *args, **kwargs):
+        return super(CategoriesListView, self).dispatch(request, *args, **kwargs)
 
 
-def category_create(request):
-    pass
+# @user_passes_test(lambda u: u.is_superuser)
+# def categories(request):
+#     categories_list = ProductsCategory.objects.all()
+#     context = {
+#         'title': 'Админка - категории',
+#         'objects': categories_list
+#     }
+
+    # return render(request, 'admins/categories.html', context)
+
+
+class CategoriesCreateView(CreateView):
+    model = ProductsCategory
+    template_name = 'admins/admin-create-category.html'
+    form_class = ProductCategoryEditForm
+    success_url = reverse_lazy('admins:categories')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(CategoriesCreateView, self).get_context_data(**kwargs)
+        context['title'] = 'Админка | Создание пользователя'
+        return context
+
+    @method_decorator(user_passes_test(lambda u: u.is_superuser))
+    def dispatch(self, request, *args, **kwargs):
+        return super(CategoriesCreateView, self).dispatch(request, *args, **kwargs)
 
 
 def category_update(request, id):

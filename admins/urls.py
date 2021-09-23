@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path
 
 import admins.views
-from .views import index, UserListView, UserCreateView, UserUpdateView, UserDeleteView, categories, category_create, category_delete, category_update
+from .views import index, UserListView, UserCreateView, UserUpdateView, UserDeleteView, \
+    CategoriesListView, CategoriesCreateView, category_delete, category_update
 
 
 app_name = 'admins'
@@ -29,8 +30,8 @@ urlpatterns = [
     path('user_update/<int:pk>', UserUpdateView.as_view(), name='admin_user_update'),
     path('user_delete/<int:pk>', UserDeleteView.as_view(), name='admin_user_delete'),
 
-    path('categories/create/', category_create, name='category_create'),
-    path('categories/read/', categories, name='categories'),
+    path('categories/create/', CategoriesCreateView.as_view(), name='category_create'),
+    path('categories/read/', CategoriesListView.as_view(), name='categories'),
     path('categories/update/<int:id>', category_update, name='category_update'),
     path('categories/delete/<int:id>', category_delete, name='category_delete'),
 ]
