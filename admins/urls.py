@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 import admins.views
-from .views import index, UserListView, admin_user_create, admin_user_update, admin_user_delete, categories, category_create, category_delete, category_update
+from .views import index, UserListView, UserCreateView, UserUpdateView, UserDeleteView, categories, category_create, category_delete, category_update
 
 
 app_name = 'admins'
@@ -25,9 +25,9 @@ app_name = 'admins'
 urlpatterns = [
     path('', index, name='index'),
     path('users/', UserListView.as_view(), name='admin_user'),
-    path('user_create/', admin_user_create, name='admin_user_create'),
-    path('user_update/<int:id>', admin_user_update, name='admin_user_update'),
-    path('user_delete/<int:id>', admin_user_delete, name='admin_user_delete'),
+    path('user_create/', UserCreateView.as_view(), name='admin_user_create'),
+    path('user_update/<int:pk>', UserUpdateView.as_view(), name='admin_user_update'),
+    path('user_delete/<int:pk>', UserDeleteView.as_view(), name='admin_user_delete'),
 
     path('categories/create/', category_create, name='category_create'),
     path('categories/read/', categories, name='categories'),
