@@ -17,20 +17,21 @@ from django.contrib import admin
 from django.urls import path
 
 import admins.views
-from .views import index, admin_user, admin_user_create, admin_user_update, admin_user_delete, categories, category_create, category_delete, category_update
+from .views import index, UserListView, UserCreateView, UserUpdateView, UserDeleteView, \
+    CategoriesListView, CategoriesCreateView, category_delete, category_update
 
 
 app_name = 'admins'
 
 urlpatterns = [
     path('', index, name='index'),
-    path('users/', admin_user, name='admin_user'),
-    path('user_create/', admin_user_create, name='admin_user_create'),
-    path('user_update/<int:id>', admin_user_update, name='admin_user_update'),
-    path('user_delete/<int:id>', admin_user_delete, name='admin_user_delete'),
+    path('users/', UserListView.as_view(), name='admin_user'),
+    path('user_create/', UserCreateView.as_view(), name='admin_user_create'),
+    path('user_update/<int:pk>', UserUpdateView.as_view(), name='admin_user_update'),
+    path('user_delete/<int:pk>', UserDeleteView.as_view(), name='admin_user_delete'),
 
-    path('categories/create/', category_create, name='category_create'),
-    path('categories/read/', categories, name='categories'),
+    path('categories/create/', CategoriesCreateView.as_view(), name='category_create'),
+    path('categories/read/', CategoriesListView.as_view(), name='categories'),
     path('categories/update/<int:id>', category_update, name='category_update'),
     path('categories/delete/<int:id>', category_delete, name='category_delete'),
 ]
