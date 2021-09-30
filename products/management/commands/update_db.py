@@ -9,4 +9,3 @@ class Command(BaseCommand):
         for user in users:
             user_profile = UserProfile.objects.create(user=user)
             user_profile.save()
-            
