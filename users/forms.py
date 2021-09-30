@@ -4,7 +4,7 @@ import random
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django import forms
 
-from users.models import User
+from users.models import User, UserProfile
 
 
 class UserProfileForm(UserChangeForm):
@@ -18,9 +18,12 @@ class UserProfileForm(UserChangeForm):
 
     image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'custom-file-input'}), required=False)
 
+    age = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control py-4',
+                                                             'placeholder': 'Укажите ваш возраст'}), required=False)
+
     class Meta:
         model = User
-        fields = ('username', 'email', 'first_name', 'last_name', 'image')
+        fields = ('username', 'email', 'first_name', 'last_name', 'image', 'age')
 
     # def clean_image(self):
     #     data = self.cleaned_data['image']
@@ -82,6 +85,21 @@ class UserRegisterForm(UserCreationForm):
             raise forms.ValidationError('Такой адрес уже есть')
 
         return email
+
+
+class UserProfileEditForm(forms.ModelForm):
+
+    class Meta:
+        model = UserProfile
+        fields = ('tagline', 'gender', 'about_me')
+
+    def __init__(self, *args, **kwargs):
+        super(UserProfileEditForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            if field_name != 'gender':
+                field.widget.attrs['class'] = 'form-control py-4'
+            else:
+                field.widget.attrs['class'] = 'form-control'
 
 
 
