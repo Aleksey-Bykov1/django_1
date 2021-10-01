@@ -31,7 +31,7 @@ def save_user_profile(backend, user, response, *args, **kwargs):
         user.userprofile.gender = UserProfile.MALE if data['sex'] == 2 else UserProfile.FEMALE
 
     if data['about']:
-        user.shopuserprofile.aboutMe = data['about']
+        user.userprofile.about_me = data['about']
 
     if data['bdate']:
         bdate = datetime.strptime(data['bdate'],'%d.%m.%Y').date()

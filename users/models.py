@@ -35,6 +35,7 @@ class UserProfile(models.Model):
     tagline = models.CharField(verbose_name='Тэги', max_length=128, blank=True)
     about_me = models.TextField(verbose_name='О себе', blank=True)
     gender = models.CharField(verbose_name='Пол', choices=GENDER_CHOICES, blank=True, max_length=5)
+    langs = models.CharField(verbose_name='Языки', max_length=128, blank=True)
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
