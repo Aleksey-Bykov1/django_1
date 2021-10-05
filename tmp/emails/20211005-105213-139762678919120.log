@@ -1,0 +1,14 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: 
+ =?utf-8?b?0JTQu9GPINCw0LrRgtC40LLQsNGG0LjQuCDRg9GH0LXRgtC90L7QuSDQt9Cw0L8=?=
+ =?utf-8?b?0LjRgdC4IHRlc3QwMSDQv9GA0L7QudC00LjRgtC1INC/0L4g0YHRgdGL0LvQutC1?=
+From: django@gb.local
+To: test01@mail.ru
+Date: Tue, 05 Oct 2021 10:52:13 -0000
+Message-ID: <163343113360.100097.13243605571140034545@alexey-VirtualBox>
+
+Для подтверждения учетной записи test01 на портале 
+ http://localhost:8000/users/verify/test01@mail.ru/5ae5f325d25d4df3323db884b782be3c1bff9876/
+-------------------------------------------------------------------------------
