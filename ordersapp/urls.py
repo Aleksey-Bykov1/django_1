@@ -17,11 +17,15 @@ from django.contrib import admin
 from django.urls import path
 from baskets.views import basket_add, basket_remove, baskets_edit
 
+from .views import OrderRead, OrderList, OrderDelete, OrderUpdate, OrderCreate, order_forming_complete
+
 app_name = 'ordersapp'
 
 urlpatterns = [
-    # path('basket_add/<int:id>', basket_add, name='basket_add'),
-    # path('basket_remove/<int:id>', basket_remove, name='basket_remove'),
-    # path('edit/<int:id>/<int:quantity>/', baskets_edit, name='baskets_edit'),
-
+    path('', OrderList.as_view(), name='list'),
+    path('create/', OrderCreate.as_view(), name='create'),
+    path('read/<int:pk>', OrderRead.as_view(), name='read'),
+    path('update/<int:pk>', OrderUpdate.as_view(), name='update'),
+    path('delete/<int:pk>', OrderDelete.as_view(), name='delete'),
+    path('forming-complete/<int:pk>', order_forming_complete, name='forming_complete'),
 ]
