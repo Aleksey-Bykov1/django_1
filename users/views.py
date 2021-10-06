@@ -17,6 +17,9 @@ class LoginListView(LoginView):
     template_name = 'users/login.html'
     form_class = UserLoginForm
 
+    def get_success_url(self):
+        return reverse('products:index')
+
     def get_context_data(self, **kwargs):
         context = super(LoginListView, self).get_context_data(**kwargs)
         context['title'] = 'GeekShop - Авторизация'
@@ -122,7 +125,7 @@ class ProfileFormView(LoginRequiredMixin, UpdateView):
         return get_object_or_404(User, pk=self.request.user.pk)
 
     @transaction.atomic
-    def post(self,request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         user = self.get_object()
         edit_form = UserProfileForm(data=request.POST, files=request.FILES, instance=user)
         profile_form = UserProfileEditForm(data=request.POST, files=request.FILES, instance=user.userprofile)
@@ -157,6 +160,9 @@ class ProfileFormView(LoginRequiredMixin, UpdateView):
 #     return render(request, 'users/profile.html', context)
 
 
-def logout(request):
-    auth.logout(request)
-    return HttpResponseRedirect(reverse('index'))
+class Logout(LogoutView):
+    template_name = 'products/index.html'
+
+# def logout(request):
+#     auth.logout(request)
+#     return HttpResponseRedirect(reverse('index'))
