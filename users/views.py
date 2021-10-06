@@ -2,7 +2,6 @@ from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.core.mail import send_mail
-from django.db import transaction
 from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 from django.contrib import auth, messages
 from django.urls import reverse, reverse_lazy
@@ -124,7 +123,15 @@ class ProfileFormView(LoginRequiredMixin, UpdateView):
     def get_object(self, *args, **kwargs):
         return get_object_or_404(User, pk=self.request.user.pk)
 
-    @transaction.atomic
+    def get(self, request, *args, **kwargs):
+        edit_form = UserProfileForm(instance=request.user)
+        profile_form = UserProfileEditForm(instance=request.user.userprofile)
+
+        return render(request, self.template_name, {
+            'form': edit_form,
+            'profile_form': profile_form,
+        })
+
     def post(self, request, *args, **kwargs):
         user = self.get_object()
         edit_form = UserProfileForm(data=request.POST, files=request.FILES, instance=user)
