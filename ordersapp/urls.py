@@ -15,12 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from products.views import ProductListView
+from baskets.views import basket_add, basket_remove, baskets_edit
 
-app_name = 'products'
+from .views import OrderRead, OrderList, OrderDelete, OrderUpdate, OrderCreate, order_forming_complete
+
+app_name = 'ordersapp'
 
 urlpatterns = [
-    path('', ProductListView.as_view(), name='index'),
-    path('category/<int:id>', ProductListView.as_view(), name='category'),
-    path('page/<int:page>', ProductListView.as_view(), name='page'),
+    path('', OrderList.as_view(), name='list'),
+    path('create/', OrderCreate.as_view(), name='create'),
+    path('read/<int:pk>', OrderRead.as_view(), name='read'),
+    path('update/<int:pk>', OrderUpdate.as_view(), name='update'),
+    path('delete/<int:pk>', OrderDelete.as_view(), name='delete'),
+    path('forming-complete/<int:pk>', order_forming_complete, name='forming_complete'),
 ]

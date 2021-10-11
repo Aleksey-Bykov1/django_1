@@ -8,6 +8,7 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from admins.forms import UserAdminRegisterForm, UserAdminProfileForm, ProductCategoryEditForm
+from users.forms import UserProfileForm, UserProfileEditForm
 from users.models import User
 from products.models import ProductsCategory
 
@@ -77,6 +78,7 @@ class UserUpdateView(UpdateView):
     model = User
     template_name = 'admins/admin-users-update-delete.html'
     form_class = UserAdminRegisterForm
+    form_class_second = UserProfileForm
     success_url = reverse_lazy('admins:admin_user')
 
     def get_context_data(self, *, object_list=None, **kwargs):
