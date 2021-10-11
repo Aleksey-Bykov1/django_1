@@ -30,7 +30,7 @@ class ProductListView(ListView):
         context['category'] = ProductsCategory.objects.all()
         return context
 
-    @method_decorator(user_passes_test(lambda u: u.is_superuser))
+    # @method_decorator(user_passes_test(lambda u: u.is_superuser))
     def dispatch(self, request, *args, **kwargs):
         return super(ProductListView, self).dispatch(request, *args, **kwargs)
 
