@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 
+from baskets.models import Basket
 from products.models import Product
 
 
@@ -53,7 +54,7 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='orderitems', on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, verbose_name='продукт', on_delete=models.CASCADE)  # products
+    product = models.ForeignKey(Product, verbose_name='продукт', on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(verbose_name='количество', default=0)
 
     def get_product_cost(self):
@@ -61,3 +62,7 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return 'Текущий заказ: {self.pk}'
+
+    # @staticmethod
+    # def get_item(pk):
+    #     return Basket.objects.get(pk=pk).quantity
