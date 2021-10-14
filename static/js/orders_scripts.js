@@ -1,4 +1,4 @@
-window.onload = function (){
+window.onload = function () {
     let _quantity, _price, orderitem_num, delta_quantity, orderitem_quantity, delta_cost;
 
     let quantity_arr = []
@@ -59,12 +59,51 @@ window.onload = function (){
         removed: deleteOrderItems
     });
 
-    function deleteOrderItems(row){
+    function deleteOrderItems(row) {
         let target_name = row[0].querySelector('input[type="number"]').name;
         orderitem_num = parseInt(target_name.replace('orderitems-', '').replace('-quantity', ''));
         delta_quantity = -quantity_arr[orderitem_num]
         orderSummaryUpdate(price_arr[orderitem_num], delta_quantity)
     }
+
+    $('.order_form select').change(function () {
+
+        let target = event.target;
+        orderitem_num = parseInt(target.name.replace('orderitems-', '').replace('-product', ''));
+        let orderitem_product_pk = target.options[target.selectedIndex].value;
+
+        if (orderitem_product_pk) {
+            $.ajax({
+                url: '/orders/product/' + orderitem_product_pk + '/price/',
+                success: function (data) {
+                    if (data.price) {
+                        price_arr[orderitem_num] = parseFloat(data.price)
+                        if (isNaN(quantity_arr[orderitem_num])) {
+                            quantity_arr[orderitem_num] = 0;
+                        }
+                        let price_html = '<span class="orderitems-' + orderitem_num + '-price">' + data.price.toString().replace('.', ',') + '<span> руб';
+                        let current_tr = $('.order_form table').find('tr:eq(' + (orderitem_num + 1) + ')');
+                        current_tr.find('td:eq(2)').html(price_html)
+                    }
+                    if (!order_total_quantity) {
+                        orderSummaryRecalc();
+                    }
+                    function orderSummaryRecalc() {
+                        order_total_quantity = 0
+                        delta_cost = 0
+
+                        for (let i=0; i<total_forms; i++) {
+                            order_total_quantity += quantity_arr[i];
+                            delta_cost += quantity_arr[i] * price_arr[i];
+                        }
+                        $('.order_total_quantity').html(order_total_quantity.toString());
+                        $('.order_total_cost').html(Number(delta_cost.toFixed(2)).toString());
+                    }
+                }
+            })
+        }
+
+    })
 
 }
 
