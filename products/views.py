@@ -5,12 +5,37 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import json
 
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from .models import Product, ProductsCategory
-
+from django.conf import settings
+from django.core.cache import cache
 
 # Create your views here.
+
+
+def get_links_menu():
+    if settings.LOW_CACHE:
+        key = 'links_menu'
+        links_menu = cache.get(key)
+        if links_menu is None:
+            links_menu = ProductsCategory.objects.filter(is_active=True)
+            cache.set(key, links_menu)
+        return links_menu
+    else:
+        return ProductsCategory.objects.filter(is_active=True)
+
+
+def get_links_product():
+    if settings.LOW_CACHE:
+        key = 'links_product'
+        links_product = cache.get(key)
+        if links_product is None:
+            links_product = Product.objects.filter(is_active=True).select_related()
+            cache.set(key, links_product)
+        return links_product
+    else:
+        return Product.objects.filter(is_active=True).select_related()
 
 
 def index(request):
@@ -24,15 +49,21 @@ class ProductListView(ListView):
     context_object_name = 'products'
     paginate_by = 3
 
-    def get_context_data(self, *, object_list=None, **kwargs):
+    def get_context_data(self, *args, object_list=None, **kwargs):
         context = super(ProductListView, self).get_context_data(**kwargs)
         context['title'] = 'GeekShop - Каталог'
-        context['category'] = ProductsCategory.objects.all()
+        context['category'] = get_links_menu()
         return context
 
     # @method_decorator(user_passes_test(lambda u: u.is_superuser))
     def dispatch(self, request, *args, **kwargs):
         return super(ProductListView, self).dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        qs = super(ProductListView, self).get_queryset()
+        if category_id := self.kwargs.get('id'):
+            qs = qs.filter(category_id=category_id)
+        return qs
 
 
 # def products(request, id=None, page=1):
@@ -53,3 +84,14 @@ class ProductListView(ListView):
 #
 #     context = {'title': title, 'products': products_paginator, 'category': category}
 #     return render(request, 'products/products.html', context)
+
+
+class ProductDetail(DetailView):
+    model = Product
+    template_name = 'products/product_detail.html'
+    context_object_name = 'product'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data()
+        context['categories'] = ProductsCategory.objects.all()
+        return context
