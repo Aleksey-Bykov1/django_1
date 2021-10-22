@@ -63,7 +63,7 @@ class ProductListView(ListView):
     def get_context_data(self, *args, object_list=None, **kwargs):
         context = super(ProductListView, self).get_context_data(**kwargs)
         context['title'] = 'GeekShop - Каталог'
-        context['category'] = get_links_category()
+        context['category'] = ProductsCategory.objects.all()
         return context
 
     # @method_decorator(user_passes_test(lambda u: u.is_superuser))
