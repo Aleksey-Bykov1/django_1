@@ -5,6 +5,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import json
 
 from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.views.generic import ListView, DetailView
 
 from .models import Product, ProductsCategory
@@ -53,6 +54,7 @@ def get_links_product():
 def index(request):
     context = {'title': 'GeekShop'}
     return render(request, 'products/index.html', context)
+
 
 
 class ProductListView(ListView):
