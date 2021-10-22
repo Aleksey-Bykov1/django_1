@@ -22,8 +22,8 @@ app_name = 'products'
 
 urlpatterns = [
     path('', ProductListView.as_view(), name='index'),
-    # path('category/<int:id>', ProductListView.as_view(), name='category'),
-    path('category/<int:id>', cache_page(3600)(ProductListView), name='category'),
+    path('category/<int:id>', ProductListView.as_view(), name='category'),
+    # path('category/<int:id>', cache_page(3600)(ProductListView), name='category'),
     path('page/<int:page>', ProductListView.as_view(), name='page'),
     path('detail/<int:pk>', ProductDetail.as_view(), name='detail'),
 ]
