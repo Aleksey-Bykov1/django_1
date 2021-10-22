@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -14,16 +14,28 @@ from django.core.cache import cache
 # Create your views here.
 
 
-def get_links_menu():
+def get_links_category():
     if settings.LOW_CACHE:
-        key = 'links_menu'
-        links_menu = cache.get(key)
-        if links_menu is None:
-            links_menu = ProductsCategory.objects.filter(is_active=True)
-            cache.set(key, links_menu)
-        return links_menu
+        key = 'links_category'
+        links_category = cache.get(key)
+        if links_category is None:
+            links_category = ProductsCategory.objects.filter(is_active=True)
+            cache.set(key, links_category)
+        return links_category
     else:
         return ProductsCategory.objects.filter(is_active=True)
+
+
+def get_product(pk):
+    if settings.LOW_CACHE:
+        key = f'product{pk}'
+        product = cache.get(key)
+        if product is None:
+            product = get_object_or_404(Product, pk=pk)
+            cache.set(key, product)
+        return product
+    else:
+        return get_object_or_404(Product, pk=pk)
 
 
 def get_links_product():
@@ -52,7 +64,7 @@ class ProductListView(ListView):
     def get_context_data(self, *args, object_list=None, **kwargs):
         context = super(ProductListView, self).get_context_data(**kwargs)
         context['title'] = 'GeekShop - Каталог'
-        context['category'] = get_links_menu()
+        context['category'] = get_links_category()
         return context
 
     # @method_decorator(user_passes_test(lambda u: u.is_superuser))
@@ -93,5 +105,6 @@ class ProductDetail(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data()
+        context['product'] = get_product(self.kwargs.get('pk'))
         context['categories'] = ProductsCategory.objects.all()
         return context
