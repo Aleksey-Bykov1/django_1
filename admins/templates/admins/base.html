@@ -54,13 +54,13 @@
                         </div>
                         Пользователи
                     </a>
-                    <a class="nav-link" href="{% url 'admins:categories' %}">
+                    <a class="nav-link" href="{% url 'admins:admin_category' %}">
                         <div class="sb-nav-link-icon">
                             <i class="fas fa-shopping-basket"></i>
                         </div>
                         Категории
                     </a>
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="{% url 'admins:admin_product' %}">
                         <div class="sb-nav-link-icon">
                             <i class="fas fa-tshirt"></i>
                         </div>
@@ -75,10 +75,10 @@
 
     {% endblock %}
         <main>
-{#            <div class="container-fluid">#}
-{#                <h1 class="mt-4">Административная панель</h1>#}
-{##}
-{#            </div>#}
+            <div class="container-fluid">
+                <h1 class="mt-4">Административная панель</h1>
+
+            </div>
         </main>
         <footer class="py-4 bg-light mt-auto">
             <div class="container-fluid">
@@ -97,5 +97,6 @@
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
 <script src="{% static 'js/datatable.js' %}"></script>
+<script src="{% static 'js/admin-category.js' %}"></script>
 </body>
 </html>
