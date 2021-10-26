@@ -20,6 +20,12 @@ def index(request):
     return render(request, 'admins/admin.html')
 
 
+def db_profile_by_type(prefix, type, queries):
+    update_queries = list(filter(lambda x: type in x['sql'], queries))
+    print(f'db_profile {type} for {prefix}:')
+    [print(query['sql']) for query in update_queries]
+
+
 class UserListView(ListView):
     model = User
     template_name = 'admins/admin-users-read.html'
@@ -186,7 +192,6 @@ class CategoryDeleteView(DeleteView):
     template_name = 'admins/admin-category-update-delete.html'
     success_url = reverse_lazy('admins:admin_category')
 
-
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.product_set.update(is_active=False)
@@ -195,8 +200,8 @@ class CategoryDeleteView(DeleteView):
 
         category = ProductsCategory.objects.all()
         context = {'object_list': category}
-        result = render_to_string('admins/delete_category.html', context, request=request)
-        return JsonResponse({'result': result})
+        # result = render_to_string('admins/delete_category.html', context, request=request)
+        # return JsonResponse({'result': result})
 
         # return HttpResponseRedirect(self.get_success_url())
 
@@ -211,18 +216,13 @@ class CategoryUpdateView(UpdateView):
     success_url = reverse_lazy('admins:admin_category')
     form_class = ProductCategoryEditForm
 
-    def db_profile_by_type(prefix, type, queries):
-        update_queries = list(filter(lambda x: type in x['sql'], queries))
-        print(f'db_profile {type} for {prefix}:')
-        [print(query['sql']) for query in update_queries]
-
     def form_valid(self, form):
         if 'discount' in form.cleaned_data:
             discount = form.cleaned_data['discount']
             if discount:
                 print(f'применяется скидка {discount} % к товарам категории {self.object.name}')
                 self.object.product_set.update(price=F('price')*(1-discount/100))
-                self.db_profile_by_type(self.__class__, 'UPDATE', connection.queries)
+                db_profile_by_type(self.__class__, 'UPDATE', connection.queries)
         return HttpResponseRedirect(self.get_success_url())
 
     @method_decorator(user_passes_test(lambda u: u.is_superuser))

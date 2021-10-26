@@ -1,4 +1,4 @@
-% extends 'admins/base.html' %}
+{% extends 'admins/base.html' %}
 
 
 {% block content %}
@@ -39,7 +39,7 @@
                     </div>
 
                     </form>
-                    <form action="{% url 'admins:admin_users_delete' user.id %}" method="post">
+                    <form action="{% url 'admins:admin_category_delete' key %}" method="post">
                         {% csrf_token %}
                     <div class="row">
                         <div class="col-lg-12" style="margin-top: 33px;">

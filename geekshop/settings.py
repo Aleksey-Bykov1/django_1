@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,6 +25,7 @@ SECRET_KEY = 'django-insecure-#pj(^610a(utxwyi(del6(&rk9j(d75q(f!ng$8o6xw4v0_08q
 from dotenv import load_dotenv
 load_dotenv(BASE_DIR / '.env')
 # SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
@@ -167,7 +169,7 @@ EMAIL_USE_SSL = True if os.getenv('EMAIL_USE_SSL') == 'True' else False
 
 # EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
 
-EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend' # django.core.mail.backends.console.EmailBackend
 EMAIL_FILE_PATH = 'tmp/emails'
 
 LOGIN_ERROR_URL = '/'

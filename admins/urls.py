@@ -25,7 +25,7 @@ app_name = 'admins'
 
 urlpatterns = [
     path('', index, name='index'),
-    path('users/', UserListView.as_view(), name='admin_user'),
+    path('users/', UserListView.as_view(), name='admin_users'),
     path('user_create/', UserCreateView.as_view(), name='admin_user_create'),
     path('user_update/<int:pk>', UserUpdateView.as_view(), name='admin_user_update'),
     path('user_delete/<int:pk>', UserDeleteView.as_view(), name='admin_user_delete'),

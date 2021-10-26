@@ -55,7 +55,7 @@
                                         <td>
                                             <form action="{% url 'admins:admin_category_update' category.id %}">
                                                 {% csrf_token %}
-                                                <input class="btn btn-success btn-block" type="submit" value="Изменить">
+                                                <input class="btn btn-success btn-block" type="submit" value="Имезнить">
                                             </form>
                                         </td>
                                     </tr>
@@ -65,8 +65,8 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="{% url 'admins:admin_users_create' %}">
-                            <button class="btn btn-success">Создать пользователя</button>
+                        <a href="#">
+                            <button class="btn btn-success">Создать категорию</button>
                         </a>
                     </div>
                 </div>
