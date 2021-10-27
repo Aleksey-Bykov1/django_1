@@ -33,7 +33,6 @@ urlpatterns = [
     path('category/', CategoryListView.as_view(), name='admin_category'),
     path('category-delete/<int:pk>/', CategoryDeleteView.as_view(), name='admin_category_delete'),
     path('category-update/<int:pk>/', CategoryUpdateView.as_view(), name='admin_category_update'),
-    # path('category-detail/<int:pk>/', CategoryDetailView.as_view(), name='admin_category_detail'),
 
     path('product/', ProductListView.as_view(), name='admin_product'),
 ]
