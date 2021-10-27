@@ -66,5 +66,4 @@ class Command(BaseCommand):
             t_list.add_row([f'{orderitem.action_order} заказ №{orderitem.pk}', f'{orderitem.product.name}',
                             f'{abs(orderitem.total_price):6.2f} руб.',
                             f'{orderitem.order.updated - orderitem.order.created}'])
-
         print(t_list)
