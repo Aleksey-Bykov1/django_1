@@ -194,16 +194,22 @@ class CategoryDeleteView(DeleteView):
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        self.object.product_set.update(is_active=False)
-        self.object.is_active = False
-        self.object.save()
+        if self.object.is_active:
+            self.object.product_set.update(is_active=False)
+            self.object.is_active = False
+            self.object.save()
+        else:
+            self.object.product_set.update(is_active=True)
+            self.object.is_active = True
+            self.object.save()
+
 
         category = ProductsCategory.objects.all()
         context = {'object_list': category}
         # result = render_to_string('admins/delete_category.html', context, request=request)
         # return JsonResponse({'result': result})
 
-        # return HttpResponseRedirect(self.get_success_url())
+        return HttpResponseRedirect(self.get_success_url())
 
     @method_decorator(user_passes_test(lambda u: u.is_superuser))
     def dispatch(self, request, *args, **kwargs):
@@ -232,8 +238,8 @@ class CategoryUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super(CategoryUpdateView, self).get_context_data(**kwargs)
         obj = self.get_object()
-        context['key'] = obj.id
-        context['cat'] = obj.name
+        context['id'] = obj.id
+        context['category_name'] = obj.name
         return context
 
 
