@@ -8,13 +8,19 @@ from django.urls import reverse, reverse_lazy
 from .forms import UserLoginForm, UserRegisterForm, UserProfileForm, UserProfileEditForm
 from django.views.generic import FormView, UpdateView
 
-# Create your views here.
 from .models import User
 
 
 class LoginListView(LoginView):
     template_name = 'users/login.html'
     form_class = UserLoginForm
+    success_url = 'index'
+
+    def get(self, request, *args, **kwargs):
+        sup = super(LoginListView, self).get(request, *args, **kwargs)
+        if request.user.is_authenticated:
+            return HttpResponseRedirect(reverse_lazy(self.success_url))
+        return sup
 
     def get_success_url(self):
         return reverse('products:index')
