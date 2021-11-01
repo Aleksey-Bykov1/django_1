@@ -18,20 +18,21 @@ from django.urls import path
 
 import admins.views
 from .views import index, UserListView, UserCreateView, UserUpdateView, UserDeleteView, \
-    CategoriesListView, CategoriesCreateView, category_delete, category_update
+    CategoryListView, CategoryDeleteView, CategoryUpdateView, ProductListView
 
 
 app_name = 'admins'
 
 urlpatterns = [
     path('', index, name='index'),
-    path('users/', UserListView.as_view(), name='admin_user'),
+    path('users/', UserListView.as_view(), name='admin_users'),
     path('user_create/', UserCreateView.as_view(), name='admin_user_create'),
     path('user_update/<int:pk>', UserUpdateView.as_view(), name='admin_user_update'),
     path('user_delete/<int:pk>', UserDeleteView.as_view(), name='admin_user_delete'),
 
-    path('categories/create/', CategoriesCreateView.as_view(), name='category_create'),
-    path('categories/read/', CategoriesListView.as_view(), name='categories'),
-    path('categories/update/<int:id>', category_update, name='category_update'),
-    path('categories/delete/<int:id>', category_delete, name='category_delete'),
+    path('category/', CategoryListView.as_view(), name='admin_category'),
+    path('category-delete/<int:pk>/', CategoryDeleteView.as_view(), name='admin_category_delete'),
+    path('category-update/<int:pk>/', CategoryUpdateView.as_view(), name='admin_category_update'),
+
+    path('product/', ProductListView.as_view(), name='admin_product'),
 ]

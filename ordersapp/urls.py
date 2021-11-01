@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from baskets.views import basket_add, basket_remove, baskets_edit
 
-from .views import OrderRead, OrderList, OrderDelete, OrderUpdate, OrderCreate, order_forming_complete, payment_result
+from .views import OrderRead, OrderList, OrderDelete, OrderUpdate, OrderCreate, order_forming_complete, payment_result, get_product_price
 
 app_name = 'ordersapp'
 
@@ -28,6 +28,7 @@ urlpatterns = [
     path('update/<int:pk>', OrderUpdate.as_view(), name='update'),
     path('delete/<int:pk>', OrderDelete.as_view(), name='delete'),
     path('forming-complete/<int:pk>', order_forming_complete, name='forming_complete'),
+    path('product/<int:pk>/price/', get_product_price, name='product_price'),
 
     path('payment/result/', payment_result, name='payment_result')
 ]
