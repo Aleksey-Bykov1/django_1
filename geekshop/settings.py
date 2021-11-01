@@ -159,7 +159,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = '/users/login/'
 
-DOMAIN_NAME = 'http://80.78.245.21/'
+DOMAIN_NAME = 'http://localhost:8000'
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = os.getenv('EMAIL_PORT')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
